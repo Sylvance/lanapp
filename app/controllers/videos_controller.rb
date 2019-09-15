@@ -42,6 +42,11 @@ class VideosController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_video
       @video = Video.find(params[:id])
+      if @video.user_id == @current_user.id
+        @video
+      else
+        render json: { "error": "Unable to process this request" }, status: :unprocessable_entity
+      end
     end
 
     # Only allow a trusted parameter "white list" through.
