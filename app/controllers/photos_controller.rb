@@ -1,5 +1,6 @@
 class PhotosController < ApplicationController
   before_action :set_photo, only: [:show, :update, :destroy]
+  before_action :check_user, only: [:update, :destroy]
 
   # GET /photos
   def index
@@ -42,6 +43,9 @@ class PhotosController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_photo
       @photo = Photo.find(params[:id])
+    end
+
+    def check_user
       if @photo.user_id == @current_user.id
         @photo
       else

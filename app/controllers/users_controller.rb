@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :check_user, only: [:update, :destroy]
   skip_before_action :authenticate_request, only: [:create]
 
   # GET /users
@@ -43,6 +44,14 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def check_user
+      if @user.user_id == @current_user.id
+        @user
+      else
+        render json: { "error": "Unable to process this request" }, status: :unprocessable_entity
+      end
     end
 
     # Only allow a trusted parameter "white list" through.
