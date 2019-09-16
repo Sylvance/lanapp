@@ -15,6 +15,16 @@ ActiveRecord::Schema.define(version: 2019_09_16_134251) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "courses", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "banner"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_courses_on_user_id"
+  end
+
   create_table "photos", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -34,6 +44,8 @@ ActiveRecord::Schema.define(version: 2019_09_16_134251) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "course_id", null: false
+    t.index ["course_id"], name: "index_playlists_on_course_id"
     t.index ["user_id"], name: "index_playlists_on_user_id"
   end
 
@@ -58,8 +70,10 @@ ActiveRecord::Schema.define(version: 2019_09_16_134251) do
     t.index ["user_id"], name: "index_videos_on_user_id"
   end
 
+  add_foreign_key "courses", "users"
   add_foreign_key "photos", "playlists"
   add_foreign_key "photos", "users"
+  add_foreign_key "playlists", "courses"
   add_foreign_key "playlists", "users"
   add_foreign_key "videos", "playlists"
   add_foreign_key "videos", "users"
