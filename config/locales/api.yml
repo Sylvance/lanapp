@@ -25,4 +25,5 @@ api:
         not_an_integer: 1020
         odd: 1021
         even: 1022
+        cannot_process: 1044
         record_not_found: 1100

@@ -43,7 +43,15 @@ class VideosController < ApplicationController
       if @video.user_id == @current_user.id
         @video
       else
-        render json: { "error": "Unable to process this request" }, status: :unprocessable_entity
+        render json: { "success": false,
+          "errors": [
+              {
+                  "resource": "video",
+                  "field": "id",
+                  "code": 1044,
+                  "message": "Unable to process this request"
+              }
+          ]}, status: :unprocessable_entity
       end
     end
 

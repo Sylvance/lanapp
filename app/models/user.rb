@@ -2,6 +2,7 @@ class User < ApplicationRecord
     has_secure_password
     has_many :videos
     has_many :photos
+    has_many :playlists
 
     validates :name, presence: true, format: /\A[0-9a-zA-Z_\-\.]{6,}\z/
     validates :password, presence: true, format: /\A[^ ]{6,}\z/

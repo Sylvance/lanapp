@@ -41,10 +41,18 @@ class UsersController < ApplicationController
     end
 
     def check_user
-      if @user.user_id == @current_user.id
+      if @user.id == @current_user.id
         @user
       else
-        render json: { "error": "Unable to process this request" }, status: :unprocessable_entity
+        render json: { "success": false,
+          "errors": [
+              {
+                  "resource": "user",
+                  "field": "id",
+                  "code": 1044,
+                  "message": "Unable to process this request"
+              }
+          ]}, status: :unprocessable_entity
       end
     end
 

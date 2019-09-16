@@ -43,7 +43,15 @@ class PhotosController < ApplicationController
       if @photo.user_id == @current_user.id
         @photo
       else
-        render json: { "error": "Unable to process this request" }, status: :unprocessable_entity
+        render json: { "success": false,
+          "errors": [
+              {
+                  "resource": "photo",
+                  "field": "id",
+                  "code": 1044,
+                  "message": "Unable to process this request"
+              }
+          ]}, status: :unprocessable_entity
       end
     end
 

@@ -4,5 +4,5 @@ class Playlist < ApplicationRecord
   has_many :videos
   has_many :photos
 
-  validates :title, presence: true
+  validates :title, presence: true, uniqueness: true
 end

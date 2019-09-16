@@ -1,5 +1,6 @@
 class PlaylistsController < ApplicationController
   before_action :set_playlist, only: [:show, :update, :destroy]
+  before_action :check_user, only: [:update, :destroy]
 
   # GET /playlists
   def index
@@ -42,7 +43,15 @@ class PlaylistsController < ApplicationController
       if @playlist.user_id == @current_user.id
         @playlist
       else
-        render json: { "error": "Unable to process this request" }, status: :unprocessable_entity
+        render json: { "success": false,
+          "errors": [
+              {
+                  "resource": "playlist",
+                  "field": "id",
+                  "code": 1044,
+                  "message": "Unable to process this request"
+              }
+          ]}, status: :unprocessable_entity
       end
     end
 
