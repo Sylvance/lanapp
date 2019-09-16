@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :playlists
   resources :photos
   resources :videos
   post 'authenticate', to: 'authentication#authenticate'
