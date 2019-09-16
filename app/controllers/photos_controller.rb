@@ -18,20 +18,14 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.new(photo_params)
 
-    if @photo.save
-      render json: @photo, status: :created, location: @photo
-    else
-      render json: @photo.errors, status: :unprocessable_entity
-    end
+    @photo.save!
+    render json: @photo, status: :created, location: @photo
   end
 
   # PATCH/PUT /photos/1
   def update
-    if @photo.update(photo_params)
-      render json: @photo
-    else
-      render json: @photo.errors, status: :unprocessable_entity
-    end
+    @photo.update!(photo_params)
+    render json: @photo
   end
 
   # DELETE /photos/1

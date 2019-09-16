@@ -30,4 +30,8 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  api:
+    errors:
+      messages:
+        not_found:
+          default: Couldn't find %{resource}
