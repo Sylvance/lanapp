@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
+    @user.avatar.attach(params[:user][:avatar]) if @user
 
     @user.save!
     render json: @user, status: :created, location: @user
@@ -31,6 +32,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
+    @user.avatar.purge_later
     @user.destroy
   end
 
@@ -58,6 +60,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :email, :bio, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :bio, :password, :password_confirmation, :avatar)
     end
 end

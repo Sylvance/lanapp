@@ -17,6 +17,7 @@ class PlaylistsController < ApplicationController
   # POST /playlists
   def create
     @playlist = Playlist.new(playlist_params)
+    @playlist.banner.attach(params[:playlist][:banner]) if @playlist
 
     @playlist.save!
     render json: @playlist, status: :created, location: @playlist
@@ -30,6 +31,7 @@ class PlaylistsController < ApplicationController
 
   # DELETE /playlists/1
   def destroy
+    @playlist.banner.purge_later
     @playlist.destroy
   end
 

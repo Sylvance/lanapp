@@ -17,6 +17,7 @@ class VideosController < ApplicationController
   # POST /videos
   def create
     @video = Video.new(video_params)
+    @video.content.attach(params[:video][:content]) if @video
 
     @video.save!
     render json: @video, status: :created, location: @video
@@ -30,6 +31,7 @@ class VideosController < ApplicationController
 
   # DELETE /videos/1
   def destroy
+    @video.content.purge_later
     @video.destroy
   end
 

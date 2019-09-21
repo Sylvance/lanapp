@@ -1,8 +1,9 @@
 class User < ApplicationRecord
     has_secure_password
-    has_many :videos
-    has_many :photos
-    has_many :playlists
+    has_one_attached :avatar
+    has_many :videos, dependent: :destroy
+    has_many :photos, dependent: :destroy
+    has_many :playlists, dependent: :destroy
 
     validates :name, presence: true, format: /\A[0-9a-zA-Z_\-\.]{6,}\z/
     validates :password, presence: true, format: /\A[^ ]{6,}\z/

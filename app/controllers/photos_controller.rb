@@ -17,6 +17,7 @@ class PhotosController < ApplicationController
   # POST /photos
   def create
     @photo = Photo.new(photo_params)
+    @photo.content.attach(params[:photo][:content]) if @photo
 
     @photo.save!
     render json: @photo, status: :created, location: @photo
@@ -30,6 +31,7 @@ class PhotosController < ApplicationController
 
   # DELETE /photos/1
   def destroy
+    @photo.content.purge_later
     @photo.destroy
   end
 

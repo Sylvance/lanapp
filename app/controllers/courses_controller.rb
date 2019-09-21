@@ -17,6 +17,7 @@ class CoursesController < ApplicationController
   # POST /courses
   def create
     @course = Course.new(course_params)
+    @course.banner.attach(params[:course][:banner]) if @course
 
     @course.save!
     render json: @course, status: :created, location: @course
@@ -30,6 +31,7 @@ class CoursesController < ApplicationController
 
   # DELETE /courses/1
   def destroy
+    @course.banner.purge_later
     @course.destroy
   end
 
