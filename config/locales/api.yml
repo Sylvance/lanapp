@@ -26,4 +26,5 @@ api:
         odd: 1021
         even: 1022
         cannot_process: 1044
+        access_denied: 1099
         record_not_found: 1100

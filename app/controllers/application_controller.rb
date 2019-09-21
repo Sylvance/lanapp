@@ -6,6 +6,7 @@ class ApplicationController < ActionController::API
         Errors::Runtime::ActionFailed,
         Errors::Runtime::ServiceFailed,
         with: :render_runtime_error_response
+    rescue_from AccessGranted::AccessDenied, with: :render_access_denied
 
     before_action :authenticate_request
 
@@ -30,5 +31,9 @@ class ApplicationController < ActionController::API
 
     def render_runtime_error_response error, status: :bad_request
         render json: error.to_hash, status: status
+    end
+
+    def render_access_denied error, status: :forbidden
+        render json: Errors::AccessDenied.new(error).to_hash, status: status
     end
 end

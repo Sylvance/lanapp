@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    access-granted (1.1.2)
     actioncable (6.0.0)
       actionpack (= 6.0.0)
       nio4r (~> 2.0)
@@ -139,6 +140,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    rolify (5.2.0)
     rspec-core (3.8.0)
       rspec-support (~> 3.8.0)
     rspec-expectations (3.8.2)
@@ -182,6 +184,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  access-granted (~> 1.1.0)
   active_model_serializers
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
@@ -192,6 +195,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
   rails (~> 6.0.0)
+  rolify
   rspec-rails
   simple_command
   spring

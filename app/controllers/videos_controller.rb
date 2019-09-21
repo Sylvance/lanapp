@@ -1,6 +1,5 @@
 class VideosController < ApplicationController
   before_action :set_video, only: [:show, :update, :destroy]
-  before_action :check_user, only: [:update, :destroy]
 
   # GET /videos
   def index
@@ -11,11 +10,13 @@ class VideosController < ApplicationController
 
   # GET /videos/1
   def show
+    authorize! :read, @video
     render json: @video
   end
 
   # POST /videos
   def create
+    authorize! :create, Video
     @video = Video.new(video_params)
     @video.content.attach(params[:video][:content]) if @video
 
@@ -25,12 +26,14 @@ class VideosController < ApplicationController
 
   # PATCH/PUT /videos/1
   def update
+    authorize! :update, @video
     @video.update!(video_params)
     render json: @video
   end
 
   # DELETE /videos/1
   def destroy
+    authorize! :destroy, @video
     @video.content.purge_later
     @video.destroy
   end
@@ -39,22 +42,6 @@ class VideosController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_video
       @video = Video.find(params[:id])
-    end
-
-    def check_user
-      if @video.user_id == @current_user.id
-        @video
-      else
-        render json: { "success": false,
-          "errors": [
-              {
-                  "resource": "video",
-                  "field": "id",
-                  "code": 1044,
-                  "message": "Unable to process this request"
-              }
-          ]}, status: :unprocessable_entity
-      end
     end
 
     # Only allow a trusted parameter "white list" through.

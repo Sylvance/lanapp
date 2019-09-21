@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_20_212131) do
+ActiveRecord::Schema.define(version: 2019_09_21_212906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2019_09_20_212131) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "price", precision: 5, scale: 2
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
@@ -70,6 +71,16 @@ ActiveRecord::Schema.define(version: 2019_09_20_212131) do
     t.index ["user_id"], name: "index_playlists_on_user_id"
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -78,6 +89,14 @@ ActiveRecord::Schema.define(version: 2019_09_20_212131) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "avatar"
+  end
+
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "role_id"
+    t.index ["role_id"], name: "index_users_roles_on_role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
+    t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
   create_table "videos", force: :cascade do |t|

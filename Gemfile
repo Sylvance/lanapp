@@ -20,6 +20,9 @@ gem 'jwt'
 
 gem 'simple_command'
 
+gem 'rolify'
+gem 'access-granted', '~> 1.1.0'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

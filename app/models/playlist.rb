@@ -1,4 +1,5 @@
 class Playlist < ApplicationRecord
+  resourcify
   belongs_to :user
 
   has_many :videos, dependent: :destroy
@@ -6,4 +7,9 @@ class Playlist < ApplicationRecord
   has_one_attached :banner
 
   validates :title, presence: true, uniqueness: true
+
+  def is_free?
+    course = Course.find(course_id)
+    course.price.zero?
+  end
 end
