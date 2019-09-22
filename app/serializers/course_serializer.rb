@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CourseSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 

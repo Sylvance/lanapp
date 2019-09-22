@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class VideosController < ApplicationController
-  before_action :set_video, only: [:show, :update, :destroy]
+  before_action :set_video, only: %i[show update destroy]
 
   # GET /videos
   def index
@@ -18,7 +20,7 @@ class VideosController < ApplicationController
   def create
     authorize! :create, Video
     @video = Video.new(video_params)
-    @video.content.attach(params[:video][:content]) if @video
+    @video&.content&.attach(params[:video][:content])
 
     @video.save!
     render json: @video, status: :created, location: @video
@@ -39,13 +41,14 @@ class VideosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_video
-      @video = Video.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def video_params
-      params.require(:video).permit(:title, :description, :content, :playlist_id).merge(user_id: @current_user.id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_video
+    @video = Video.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def video_params
+    params.require(:video).permit(:title, :description, :content, :playlist_id).merge(user_id: @current_user.id)
+  end
 end

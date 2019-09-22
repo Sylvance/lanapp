@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Playlist < ApplicationRecord
   resourcify
   belongs_to :user

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccessPolicy
   include AccessGranted::Policy
 
@@ -65,18 +67,10 @@ class AccessPolicy
     # The base role with no additional conditions.
     # Applies to every user.
     role :default do
-      can :read, Course do |course|
-        course.is_free?
-      end
-      can :create, Playlist do |playlist|
-        playlist.is_free?
-      end
-      can :create, Video do |video|
-        video.is_free?
-      end
-      can :create, Photo do |photo|
-        photo.is_free?
-      end
+      can :read, Course, &:is_free?
+      can :create, Playlist, &:is_free?
+      can :create, Video, &:is_free?
+      can :create, Photo, &:is_free?
     end
   end
 end

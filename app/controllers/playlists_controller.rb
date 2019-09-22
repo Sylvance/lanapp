@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PlaylistsController < ApplicationController
-  before_action :set_playlist, only: [:show, :update, :destroy]
+  before_action :set_playlist, only: %i[show update destroy]
 
   # GET /playlists
   def index
@@ -18,7 +20,7 @@ class PlaylistsController < ApplicationController
   def create
     authorize! :create, Playlist
     @playlist = Playlist.new(playlist_params)
-    @playlist.banner.attach(params[:playlist][:banner]) if @playlist
+    @playlist&.banner&.attach(params[:playlist][:banner])
 
     @playlist.save!
     render json: @playlist, status: :created, location: @playlist
@@ -39,13 +41,14 @@ class PlaylistsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_playlist
-      @playlist = Playlist.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def playlist_params
-      params.require(:playlist).permit(:title, :description, :banner, :course_id).merge(user_id: @current_user.id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_playlist
+    @playlist = Playlist.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def playlist_params
+    params.require(:playlist).permit(:title, :description, :banner, :course_id).merge(user_id: @current_user.id)
+  end
 end

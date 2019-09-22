@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
-  before_action :check_user, only: [:update, :destroy]
+  before_action :set_user, only: %i[show update destroy]
+  before_action :check_user, only: %i[update destroy]
   skip_before_action :authenticate_request, only: [:create]
 
   # GET /users
@@ -18,7 +20,7 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
-    @user.avatar.attach(params[:user][:avatar]) if @user
+    @user&.avatar&.attach(params[:user][:avatar])
 
     @user.save!
     render json: @user, status: :created, location: @user
@@ -37,29 +39,30 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    def check_user
-      if @user.id == @current_user.id
-        @user
-      else
-        render json: { "success": false,
-          "errors": [
-              {
-                  "resource": "user",
-                  "field": "id",
-                  "code": 1044,
-                  "message": "Unable to process this request"
-              }
-          ]}, status: :unprocessable_entity
-      end
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:name, :email, :bio, :password, :password_confirmation, :avatar)
+  def check_user
+    if @user.id == @current_user.id
+      @user
+    else
+      render json: { "success": false,
+                     "errors": [
+                       {
+                         "resource": 'user',
+                         "field": 'id',
+                         "code": 1044,
+                         "message": 'Unable to process this request'
+                       }
+                     ] }, status: :unprocessable_entity
     end
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def user_params
+    params.require(:user).permit(:name, :email, :bio, :password, :password_confirmation, :avatar)
+  end
 end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PhotosController < ApplicationController
-  before_action :set_photo, only: [:show, :update, :destroy]
+  before_action :set_photo, only: %i[show update destroy]
 
   # GET /photos
   def index
@@ -18,7 +20,7 @@ class PhotosController < ApplicationController
   def create
     authorize! :create, Photo
     @photo = Photo.new(photo_params)
-    @photo.content.attach(params[:photo][:content]) if @photo
+    @photo&.content&.attach(params[:photo][:content])
 
     @photo.save!
     render json: @photo, status: :created, location: @photo
@@ -39,13 +41,14 @@ class PhotosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_photo
-      @photo = Photo.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def photo_params
-      params.require(:photo).permit(:title, :description, :content, :playlist_id).merge(user_id: @current_user.id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_photo
+    @photo = Photo.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def photo_params
+    params.require(:photo).permit(:title, :description, :content, :playlist_id).merge(user_id: @current_user.id)
+  end
 end
