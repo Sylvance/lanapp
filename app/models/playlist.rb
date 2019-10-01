@@ -6,9 +6,14 @@ class Playlist < ApplicationRecord
 
   has_many :videos, dependent: :destroy
   has_many :photos, dependent: :destroy
-  has_one_attached :banner
+  has_one_attached :banner, dependent: :destroy
 
   validates :title, presence: true, uniqueness: true
+
+  scope :by_date, -> { order(created_at: :desc) }
+
+  # pagination
+  self.per_page = 10
 
   def is_free?
     course = Course.find(course_id)

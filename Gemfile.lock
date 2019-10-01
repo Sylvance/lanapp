@@ -62,6 +62,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.1, >= 2.1.8)
+    api-pagination (4.8.2)
     bcrypt (3.1.12)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
@@ -78,6 +79,8 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
+    faker (1.9.1)
+      i18n (>= 0.7)
     ffi (1.11.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -179,6 +182,7 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
+    will_paginate (3.1.6)
     zeitwerk (2.1.9)
 
 PLATFORMS
@@ -187,10 +191,12 @@ PLATFORMS
 DEPENDENCIES
   access-granted (~> 1.1.0)
   active_model_serializers
+  api-pagination
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
   byebug
   factory_girl_rails
+  faker
   jwt
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
@@ -203,6 +209,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   stripe
   tzinfo-data
+  will_paginate (~> 3.1.0)
 
 RUBY VERSION
    ruby 2.5.1p57
