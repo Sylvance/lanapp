@@ -7,7 +7,7 @@ class CoursesController < ApplicationController
   def index
     @courses = Course.by_date
 
-    paginate json: @courses, per_page: 15
+    paginate json: @courses
   end
 
   # GET /courses/1

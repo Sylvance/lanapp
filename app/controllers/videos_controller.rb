@@ -7,7 +7,7 @@ class VideosController < ApplicationController
   def index
     @videos = Video.by_date
 
-    paginate json: @videos, per_page: 3
+    paginate json: @videos
   end
 
   # GET /videos/1

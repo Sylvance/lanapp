@@ -7,7 +7,7 @@ class PhotosController < ApplicationController
   def index
     @photos = Photo.by_date
 
-    paginate json: @photos, per_page: 15
+    paginate json: @photos
   end
 
   # GET /photos/1

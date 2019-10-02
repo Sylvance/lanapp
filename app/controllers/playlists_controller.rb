@@ -7,7 +7,7 @@ class PlaylistsController < ApplicationController
   def index
     @playlists = Playlist.by_date
 
-    paginate json: @playlists, per_page: 3
+    paginate json: @playlists
   end
 
   # GET /playlists/1

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def index
     @users = User.by_date
 
-    paginate json: @users, per_page: 15
+    paginate json: @users
   end
 
   # GET /users/1
