@@ -39,7 +39,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'active_model_serializers'
 
-gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate'
 gem 'api-pagination'
 
 group :development, :test do
