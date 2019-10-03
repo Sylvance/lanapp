@@ -15,6 +15,9 @@ class User < ApplicationRecord
 
   rolify before_add: :print_role_added
   after_create :assign_default_role
+  redi_search schema: {
+    name: { text: { phonetic: "dm:en" } }
+  }
 
   # pagination
   self.per_page = 10

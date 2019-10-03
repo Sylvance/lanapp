@@ -55,3 +55,6 @@ build-iPhoneSimulator/
 log/*
 log/development.log
 log/test.log
+/dump/
+/dump.rdb/
+/RediSearch/

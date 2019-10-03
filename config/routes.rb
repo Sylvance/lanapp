@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'search/search_courses'
+  get 'search/search_users'
   put 'stripe/add_stripe_token', to: 'stripe#add_stripe_token' 
   put 'stripe/pay_for_course/:id', to: 'stripe#pay_for_course' 
   resources :courses

@@ -11,6 +11,10 @@ class Video < ApplicationRecord
 
   scope :by_date, -> { order(created_at: :desc) }
 
+  redi_search schema: {
+    title: { text: { phonetic: "dm:en" } }
+  }
+
   # pagination
   self.per_page = 10
 

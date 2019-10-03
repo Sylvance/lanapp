@@ -28,6 +28,9 @@ gem 'simple_command'
 gem 'access-granted', '~> 1.1.0'
 gem 'rolify'
 
+# Use redisearch for searching
+gem 'redi_search'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -35,7 +38,7 @@ gem 'rolify'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
 
 gem 'active_model_serializers'
 
