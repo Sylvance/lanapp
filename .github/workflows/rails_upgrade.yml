@@ -1,0 +1,51 @@
+name: Rails Upgrade
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: +os [${{ matrix.os }}] +rails [${{ matrix.rails }}] +ruby [${{ matrix.ruby }}]
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu, macos ]
+        rails: [ "5", "6" ]
+        ruby: [ 2.6, 2.7, 3.0, 3.1, head, debug ]
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
+    permissions:
+      packages: write
+      contents: read
+    # env: # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
+    #   BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails${{ matrix.gemfile }}.gemfile
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Ruby Matrix Version
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Install gems
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MATRIX_RAILS_VERSION: ${{ matrix.rails }}
+        run: |
+          export BUNDLE_GEMFILE="${GITHUB_WORKSPACE}/gemfiles/rails${MATRIX_RAILS_VERSION}.gemfile"
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+
+      # - name: Copy to env file
+      #   run: cp .env.test.example .env.test
+
+      - name: Run Tests
+        run: bundle exec rspec
+
+      - name: Bundler Audit
+        uses: andrewmcodes/bundler-audit-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
